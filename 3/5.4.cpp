@@ -4,27 +4,43 @@
 #include <iomanip>
 #define o(x) round(x * pow(10,5))/pow(10,5) 
 
+//значение функции 
 double getValue(const double& x)  {
 	return exp(2*x);
 }
 
+//точное значение певрой производной
 double getExpFirstDerivative (const double& x) {
 	return 2* exp(2*x);
 }
 
+//точное значение второй производной
 double getExpSecondDerivative (const double& x) {
 	return 4* exp(2*x);
 }
 
+//значение первой производной с первый порядком точности 
 double getFirstDevivativeOH(const double x, const double h) {
 	return (o(getValue(x)) - o(getValue(x-h)))/h;
 }
 
+//значение первой производной со вторым порядком точности 
 double getFirstDerivativeOH2(const double x, const double h) {
 	return ((-3)* o(getValue(x)) + 4* o(getValue(x + h)) - o(getValue(x + 2*h)))/(2*h);
 }
+//значение второй производной с первым порядком точности 
 double getSecondDerivativeOH2(const double x, const double h) {
 	return (o(getValue(x+h)) - 2*o(getValue(x)) + o(getValue(x-h)))/(pow(h, 2));
+}
+
+//значение первой производнйо с третьим порядком точности 
+double getFirstDerivativeOH3(const double x, const double h) {
+	return ((-11)*o(getValue(x-3*h)) +  18*o(getValue(x-2*h)) - 9*o(getValue(x-h)) + 2*o(getValue(x)))/(6*h);
+}
+
+//значение первой производнйо с четвертым порядком точности 
+double getFirstDerivativeOH4(const double x, const double h) {
+	return (o(getValue(x-2*h)) - 8*o(getValue(x-h)) + 8*o(getValue(x+h)) - o(getValue(x+2*h)))/(12*h);
 }
 int main() {
 	double h = 0.0; //шаг
@@ -63,6 +79,8 @@ int main() {
 
 	// y_i.push_back(getValue(begin+ h *n + h));
 	// y_i.push_back(getValue(begin+ h *n + 2*h));
+
+	//вывод производных
 	for (int i = 0; i <= n; ++i)
 	{
 		x = begin + h * (i);
@@ -95,6 +113,7 @@ int main() {
 	std::cout<<std::endl;
 	std::cout<<std::endl;
 
+	//вывод поиска оптимального h для первой производной с первым порядком точности
 	x = 1.0;
 	std::cout<<std::setfill(' ')<<std::setw(6)<<"h";
 
@@ -127,5 +146,24 @@ int main() {
 		h = h / 2;
 		std::cout<<std::setfill(' ')<<std::setw(15)<<getExpFirstDerivative(x) - getFirstDerivativeOH2(x, h);
 	}
+	std::cout<<std::endl;
 
+	//вывод значения первой производной с четвертым порядком точности и погрешности
+	x = 1.0;
+	std::cout<<std::setfill(' ')<<std::setw(6)<<"h";
+
+	h = 0.1;
+
+	std::cout<<std::setfill(' ')<<std::setw(15)<<h;
+
+	std::cout<<std::endl;
+	std::cout<<std::setfill(' ')<<std::setw(6)<<"f";
+
+
+	std::cout<<std::setfill(' ')<<std::setw(15)<<getFirstDerivativeOH4(x, h);
+
+	std::cout<<std::endl;
+	std::cout<<std::setfill(' ')<<std::setw(6)<<"погрешн.";
+
+	std::cout<<std::setfill(' ')<<std::setw(15)<<getExpFirstDerivative(x) - getFirstDerivativeOH4(x, h);
 } 
