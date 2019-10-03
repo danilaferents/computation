@@ -118,7 +118,7 @@ int main() {
 			double input;
 			std::cin>> input;
 			_matrix[i][j] = input;
-			std::cout<<_matrix[i][j]<<" ";
+			// std::cout<<_matrix[i][j]<<" ";
 		}
 		std::cout<<std::endl;
 	}
